@@ -9,6 +9,8 @@ public class CarTest {
     private static void testTurbo() {
         Saab95 slowSaab = new Saab95();
         Saab95 fastSaab = new Saab95();
+        fastSaab.startEngine();
+        slowSaab.startEngine();
         fastSaab.setTurboOn();
         slowSaab.setTurboOff();
         fastSaab.gas(0.5);
@@ -37,11 +39,13 @@ public class CarTest {
         boolean gasRejected = false;
         boolean brakeRejected = false;
         try {
+            volvo.startEngine();
             volvo.gas(1.5);
         } catch (IllegalArgumentException e) {
             gasRejected = true;
         }
         try {
+            volvo.startEngine();
             volvo.brake(-0.5);
         } catch (IllegalArgumentException e) {
             brakeRejected = true;
@@ -52,6 +56,7 @@ public class CarTest {
     /** Tests that currentSpeed never goes above enginePower. */
     private static void testSpeedNotAboveEnginePower() {
         Volvo240 volvo = new Volvo240();
+        volvo.startEngine();
         for (int i = 0; i < 200; i++) {
             volvo.gas(1);
         }
@@ -78,6 +83,7 @@ public class CarTest {
     /** Tests that brake() cant increase speed. */
     private static void testBrakeDoesNotIncreaseSpeed() {
         Volvo240 volvo = new Volvo240();
+        volvo.startEngine();
         volvo.gas(1);
         double before = volvo.getCurrentSpeed();
         volvo.brake(0.5);

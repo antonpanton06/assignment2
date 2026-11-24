@@ -21,21 +21,24 @@ public abstract class Car implements Movable {
     private final int nrDoors; // Number of doors on the car
     private final double enginePower; // Engine power of the car
     private double currentSpeed; // The current speed of the car, not final because we want to be able to change value
+    private boolean engineOn = false; // The engine is off to start with
     private Color color; // Color of the car, not final because we want to be able to change value
     private final String modelName; // The car model name
 
     // Start values for the positioning of the car
-    private double x = 0;
-    private double y = 0;
+    private double x ;
+    private double y ;
     private Direction direction = Direction.NORTH;
 
     // Constructor:
-    public Car(int nrDoors, double enginePower, double currentSpeed, Color color, String modelName){
+    public Car(int nrDoors, double enginePower, double currentSpeed, Color color, String modelName, double x, double y){
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.currentSpeed = currentSpeed;
         this.color = color;
         this.modelName = modelName;
+        this.x = x;
+        this.y = y;
     }
     // Getters (methods to call the different values):
     public int getNrDoors() {
@@ -65,10 +68,12 @@ public abstract class Car implements Movable {
 
     public void startEngine() {
         currentSpeed = 0.1;
+        engineOn = true;
     }
 
     public void stopEngine() {
         currentSpeed = 0;
+        engineOn = false;
     }
 
     protected abstract double speedFactor();
@@ -106,6 +111,7 @@ public abstract class Car implements Movable {
     }
 
     public void gas(double amount) {
+        if (!engineOn) return;
         if (amount < 0 || amount > 1){ throw new IllegalArgumentException("Amounts cannot be less than 0 or more than 1");}
         incrementSpeed(amount);
     }
